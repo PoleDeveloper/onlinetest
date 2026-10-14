@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JLPT N3 文法 Test</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#F1F4F7;--card:#fff;--ink:#16203F;--mute:#5B6684;--line:#D5DBE6;--accent:#2B3A8C;--ok:#1F7A4F;--okbg:#E4F4EB;--ng:#B3283E;--ngbg:#FBE8EB;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10152B;--card:#1A2140;--ink:#EEF1FA;--mute:#A3AECF;--line:#343E69;--accent:#8FA2FF;--ok:#6FD6A0;--okbg:#17372B;--ng:#FF8FA3;--ngbg:#40202B}}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;line-height:1.7}
+main{max-width:640px;margin:0 auto;padding:20px 16px 48px}
+h1{font-family:"Noto Serif JP",serif;font-size:1.3rem;margin:0 0 4px}
+.sub{color:var(--mute);font-size:.9rem;margin:0 0 16px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--mute);font-size:.85rem;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 18px}
+.q{font-family:"Noto Serif JP",serif;font-size:1.3rem;line-height:1.9;margin:0 0 18px}
+.opts{display:grid;gap:10px}
+.opt{font:inherit;font-size:1.1rem;text-align:left;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);cursor:pointer;display:flex;gap:12px;align-items:center}
+.opt b{color:var(--mute);font-weight:500;min-width:1.2em}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:focus-visible,.btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.ng{border-color:var(--ng);background:var(--ngbg)}
+.opt:disabled{cursor:default}
+.hint{margin:0 0 14px;color:var(--mute);font-size:.9rem}
+.exp{margin-top:16px;padding:14px;border-radius:10px;background:var(--bg);border-left:4px solid var(--accent);font-size:.95rem}
+.exp strong.ok{color:var(--ok)}.exp strong.ng{color:var(--ng)}
+.exp p{margin:6px 0 0}
+.btn{font:inherit;font-weight:700;margin-top:16px;padding:12px 22px;border:0;border-radius:10px;background:var(--accent);color:var(--bg);cursor:pointer}
+.score{font-family:"Noto Serif JP",serif;font-size:2.6rem;margin:4px 0}
+.rev{list-style:none;padding:0;margin:14px 0 0}
+.rev li{padding:8px 0;border-top:1px solid var(--line);font-size:.95rem}
+.rev .t{font-family:"Noto Serif JP",serif}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<h1>JLPT N3 文法 Test</h1>
+<p class="sub">10 soal. Pilih jawaban, lalu baca penjelasannya.</p>
+<div class="bar"><i id="pb"></i></div>
+<div class="meta"><span id="no"></span><span id="sc"></span></div>
+<section class="card" id="quiz">
+<p class="q" id="q"></p>
+<p class="hint" id="hint"></p>
+<div class="opts" id="opts"></div>
+<div class="exp" id="exp" hidden></div>
+<button class="btn" id="next" hidden></button>
+</section>
+<section class="card" id="end" hidden>
+<p class="sub" style="margin:0">Skor akhir</p>
+<p class="score" id="fs"></p>
+<p id="msg"></p>
+<ul class="rev" id="rev"></ul>
+<button class="btn" id="again">Ulangi tes</button>
+</section>
+</main>
+<script>
+var Q=[
+{q:"彼は病気（　）、毎日会社に行っている。",h:"Ada kontras: sakit tetapi tetap pergi kerja.",o:["のに","ながら","にもかかわらず","ために"],a:2,e:"「にもかかわらず」berarti 'meskipun', dipakai untuk kontras antara dua hal yang bertentangan. Arti: 'Meskipun sakit, dia tetap pergi ke kantor setiap hari.' 「のに」 juga berarti 'padahal', tetapi harus menempel pada bentuk biasa (病気なのに), bukan 病気のに. 「ながら」 untuk dua aksi bersamaan, 「ために」 untuk tujuan/sebab."},
+{q:"この問題は難しくて、先生（　）わからないそうだ。",h:"Maknanya 'bahkan guru pun'.",o:["さえ","ほど","だけ","しか"],a:0,e:"「さえ」berarti 'bahkan', menunjukkan contoh ekstrem: 'Soal ini sulit, bahkan guru pun tidak tahu.' 「しか」 berarti 'hanya' dan membuat arti jadi janggal di sini. 「だけ」 = hanya, 「ほど」 = sebesar/sekitar."},
+{q:"日本に来た（　）、日本語がだんだん上手になった。",h:"Hasilnya bagus, jadi cari ungkapan 'berkat'.",o:["ところ","おかげで","せいで","くせに"],a:1,e:"「おかげで」dipakai untuk hasil POSITIF karena suatu sebab: 'Berkat datang ke Jepang, bahasa Jepangku makin lancar.' 「せいで」 untuk hasil NEGATIF (gara-gara). 「くせに」 = 'padahal' (nada mencela)."},
+{q:"雨が降って（　）、試合は予定どおり行われた。",h:"Hujan, tapi pertandingan tetap jalan.",o:["いたら","いても","いるなら","いるので"],a:1,e:"「〜ても」berarti 'meskipun': 'Meskipun hujan turun, pertandingan tetap dilaksanakan sesuai jadwal.' Hasilnya bertentangan dengan dugaan (hujan → batal). 「いたら」 = jika, 「いるなら」 = kalau (memang), 「いるので」 = karena."},
+{q:"この薬は食事の（　）飲んでください。",h:"Urutan waktu: makan lalu minum obat.",o:["あとで","うちに","ばかりに","たびに"],a:0,e:"「Nのあとで」berarti 'setelah N': 'Tolong minum obat ini setelah makan.' 「うちに」 = selagi masih, 「ばかりに」 = hanya karena (hasil buruk), 「たびに」 = setiap kali."},
+{q:"忘れ（　）うちに、メモしておこう。",h:"Artinya 'sebelum lupa'.",o:["ない","た","て","ている"],a:0,e:"「〜ないうちに」berarti 'selagi belum / sebelum': 'Selagi belum lupa, mari kita catat.' Pola 「Vないうちに」 dipakai untuk melakukan sesuatu sebelum keadaan berubah. 「忘れないうちに」 adalah ungkapan yang sangat umum."},
+{q:"彼女は歌手（　）、ダンスも上手だ。",h:"Perhatikan kata 「も」 pada bagian kedua.",o:["として","だけでなく","にとって","によって"],a:1,e:"「だけでなく〜も」berarti 'tidak hanya ... tetapi juga ...': 'Dia tidak hanya penyanyi, tetapi juga pandai menari.' 「として」 = sebagai, 「にとって」 = bagi (sudut pandang), 「によって」 = tergantung/oleh."},
+{q:"車を運転し（　）、電話をするのは危険です。",h:"Dua aksi dilakukan bersamaan.",o:["ながら","つつ","たまま","ついでに"],a:0,e:"「Vながら」berarti 'sambil': 'Menelepon sambil menyetir itu berbahaya.' Dipakai untuk dua aksi bersamaan oleh orang yang sama. 「つつ」 lebih formal/tulisan dan kurang natural di sini. 「たまま」 = dalam keadaan tetap, 「ついでに」 = sekalian."},
+{q:"A「明日のパーティー、行く？」 B「うん、仕事が早く終われば行く（　）。」",h:"B menyatakan rencana pribadi.",o:["ことにしている","つもりだ","はずがない","ようになる"],a:1,e:"「つもりだ」menyatakan niat/rencana: 'Kalau kerjaan selesai cepat, aku berencana pergi.' 「ことにしている」 = sudah jadi kebiasaan pribadi, 「はずがない」 = tidak mungkin, 「ようになる」 = menjadi (perubahan kemampuan/kebiasaan)."},
+{q:"毎日練習した（　）、試合に勝つことができた。",h:"Usaha keras membuahkan hasil.",o:["せいで","わりに","かいがあって","どころか"],a:2,e:"「〜かいがあって」berarti 'usaha tidak sia-sia / terbayar': 'Latihan setiap hari terbayar, aku bisa menang pertandingan.' 「せいで」 = gara-gara (negatif), 「わりに」 = dibandingkan dengan, 「どころか」 = jangankan."}
+];
+var i=0,s=0,miss=[];
+var $=function(id){return document.getElementById(id)};
+var L=["A","B","C","D"];
+function show(){
+  var d=Q[i];
+  $("q").textContent=d.q;$("hint").textContent="Hint: "+d.h;
+  $("no").textContent="Soal "+(i+1)+" / "+Q.length;$("sc").textContent="Benar: "+s;
+  $("pb").style.width=(i/Q.length*100)+"%";
+  $("exp").hidden=true;$("next").hidden=true;
+  var box=$("opts");box.innerHTML="";
+  d.o.forEach(function(t,k){
+    var b=document.createElement("button");b.className="opt";
+    b.innerHTML="<b>"+L[k]+"</b><span></span>";b.lastChild.textContent=t;
+    b.onclick=function(){pick(k)};box.appendChild(b);
+  });
+}
+function pick(k){
+  var d=Q[i],ok=k===d.a,bs=$("opts").children;
+  for(var j=0;j<bs.length;j++){bs[j].disabled=true;if(j===d.a)bs[j].classList.add("ok")}
+  if(!ok){bs[k].classList.add("ng");miss.push(i)}else s++;
+  $("sc").textContent="Benar: "+s;
+  $("exp").innerHTML="<strong class='"+(ok?"ok":"ng")+"'>"+(ok?"Benar!":"Kurang tepat.")+" Jawaban: "+L[d.a]+" "+d.o[d.a]+"</strong><p></p>";
+  $("exp").lastChild.textContent=d.e;
+  $("exp").hidden=false;
+  $("next").textContent=i===Q.length-1?"Lihat hasil":"Soal berikutnya";
+  $("next").hidden=false;$("next").focus();
+}
+$("next").onclick=function(){i++;if(i<Q.length)show();else finish()};
+function finish(){
+  $("quiz").hidden=true;$("end").hidden=false;$("pb").style.width="100%";
+  $("fs").textContent=s+" / "+Q.length;
+  $("msg").textContent=s>=8?"Bagus sekali! Pola N3 kamu sudah kuat.":s>=5?"Lumayan. Ulangi pola yang masih salah di bawah ini.":"Terus berlatih. Baca ulang penjelasan tiap pola, lalu coba lagi.";
+  var r=$("rev");r.innerHTML="";
+  if(!miss.length){r.innerHTML="<li>Semua jawaban benar.</li>"}
+  miss.forEach(function(n){
+    var li=document.createElement("li");
+    li.innerHTML="<div class='t'></div><div></div>";
+    li.firstChild.textContent=Q[n].q;
+    li.lastChild.textContent="Jawaban: "+Q[n].o[Q[n].a];
+    r.appendChild(li);
+  });
+}
+$("again").onclick=function(){i=0;s=0;miss=[];$("end").hidden=true;$("quiz").hidden=false;show()};
+show();
+</script>
+</body>
+</html>
